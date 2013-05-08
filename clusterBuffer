@@ -1,0 +1,44 @@
+=== Run information ===
+
+Scheme:weka.clusterers.SimpleKMeans -N 5 -A "weka.core.EuclideanDistance -R first-last" -I 500 -S 10
+Relation:     dictionary.arff
+Instances:    16106
+Attributes:   3
+              23.387096
+Ignored:
+              timed
+              2.1048386
+Test mode:evaluate on training data
+
+=== Model and evaluation on training set ===
+
+
+kMeans
+======
+
+Number of iterations: 32
+Within cluster sum of squared errors: 9.992492449791747
+Missing values globally replaced with mean/mode
+
+Cluster centroids:
+                         Cluster#
+Attribute    Full Data          0          1          2          3          4
+               (16106)      (678)     (1310)     (4403)     (6568)     (3147)
+=============================================================================
+23.387096       16.073    46.2375    -5.5753     8.3717    17.0097    27.4058
+
+
+
+
+Time taken to build model (full training data) : 0.34 seconds
+
+=== Model and evaluation on training set ===
+
+Clustered Instances
+
+0        678 (  4%)
+1       1310 (  8%)
+2       4403 ( 27%)
+3       6568 ( 41%)
+4       3147 ( 20%)
+
