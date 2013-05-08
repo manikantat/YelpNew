@@ -4,8 +4,8 @@
 
 @RELATION dictionary original 
 @ATTRIBUTE word String 
-@ATTRIBUTE usefulVotesPercent NUMERIC
-@ATTRIBUTE usefulnessPercent NUMERIC
+@ATTRIBUTE usefulVotesPercent {A,B,C,D,E}
+@ATTRIBUTE usefulnessPercent {A,B,C,D,E}
 
 @DATA 
 timed

@@ -126,8 +126,8 @@ public class CreateDictionary {
 		OriginalDict.write(line);
 		
 		line =     "@ATTRIBUTE word String \n" +
-				   "@ATTRIBUTE usefulVotesPercent NUMERIC\n"+
-				   "@ATTRIBUTE usefulnessPercent NUMERIC\n\n"+
+				   "@ATTRIBUTE usefulVotesPercent {A,B,C,D,E}\n"+
+				   "@ATTRIBUTE usefulnessPercent {A,B,C,D,E}\n\n"+
 				   "@DATA \n";
 		OriginalDict.write(line);
 		

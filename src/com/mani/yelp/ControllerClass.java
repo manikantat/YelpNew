@@ -124,7 +124,7 @@ public class ControllerClass {
 	}
 	private static void makeDictionaryWithClusters() throws IOException 
 	{
-		File clusteredDictionary = new File("clusteredDictionary.arff");
+		File clusteredDictionary = new File("clusteredDictionaryfinal.arff");
 		FileWriter fr = new FileWriter(clusteredDictionary);
 		
 		FileInputStream OriginalStream = new FileInputStream("original.arff");    
@@ -133,13 +133,13 @@ public class ControllerClass {
 		
 		
 		String Oline;
-		while((Oline = Obr.readLine()) != null)
+		while((Oline= Obr.readLine())!=null )
 		{
 			fr.write(Oline+"\n");
-			if(Oline.equalsIgnoreCase("@DATA"))
+			if(Oline.toLowerCase().replaceAll("[^A-Za-z]", "").equals("data"))
 				break;
 		}
-		FileInputStream Dict1Stream = new FileInputStream("dictionary.arff");    
+		FileInputStream Dict1Stream = new FileInputStream("dictionaryClusterred.arff");    
 		DataInputStream Dict1In = new DataInputStream(Dict1Stream);  
 		BufferedReader D1br = new BufferedReader(new InputStreamReader(Dict1In));
 		
@@ -147,25 +147,25 @@ public class ControllerClass {
 		String dline;
 		while((dline = D1br.readLine()) != null)
 		{
-			if(dline.equalsIgnoreCase("@DATA"))
+			if( dline.toLowerCase().replaceAll("[^A-Za-z]", "").equals("data"))
 				break;
 		}
 		
-		FileInputStream Dict2Stream = new FileInputStream("dictionary1.arff");    
+		FileInputStream Dict2Stream = new FileInputStream("Dictionary1Clusterred.arff");    
 		DataInputStream Dict2In = new DataInputStream(Dict2Stream);  
 		BufferedReader d2br = new BufferedReader(new InputStreamReader(Dict2In));
 				
 		String d2line;
 		while((d2line = d2br.readLine()) != null)
 		{
-			if(d2line.equalsIgnoreCase("@DATA"))
+			if(d2line.toLowerCase().replaceAll("[^A-Za-z]", "").equals("data"))
 				break;
 		}
 		
 		while((Oline = Obr.readLine()) != null)
 		{
-			dline = D1br.readLine();
-			d2line = d2br.readLine();
+			dline = D1br.readLine().split(",")[1];
+			d2line = d2br.readLine().split(",")[1];
 			fr.write(Oline+","+dline+","+d2line+"\n");
 			
 		}
@@ -175,8 +175,7 @@ public class ControllerClass {
 		D1br.close();	
 		
 	}
-	private static void populateMap(
-			ArrayList<attributeType> trainingInstances) {
+	private static void populateMap(ArrayList<attributeType> trainingInstances) {
 		
 		Iterator<attributeType> itr = trainingInstances.iterator();
 		
