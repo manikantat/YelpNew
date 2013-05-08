@@ -1,7 +1,13 @@
 package com.mani.yelp;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -22,8 +28,7 @@ public class ControllerClass {
 		try
 		{
 		 trainingPath = args[0];
-		 testPath = args[1];
-		
+		 testPath = args[1];		
 		 
 		 // Setting up the Paths
 		 
@@ -94,7 +99,7 @@ public class ControllerClass {
 		 cc.generateCluster("Dictionary1.arff");
 		 
 		 
-		 
+		 makeDictionaryWithClusters();
 	
 		 System.out.println("Files Created.");
 
@@ -115,6 +120,59 @@ public class ControllerClass {
 		
 		
 
+	}
+	private static void makeDictionaryWithClusters() throws IOException 
+	{
+		File clusteredDictionary = new File("clusteredDictionary.arff");
+		FileWriter fr = new FileWriter(clusteredDictionary);
+		
+		FileInputStream OriginalStream = new FileInputStream("original.arff");    
+		DataInputStream OriginalIn = new DataInputStream(OriginalStream);  
+		BufferedReader Obr = new BufferedReader(new InputStreamReader(OriginalIn));
+		
+		
+		String Oline;
+		while((Oline = Obr.readLine()) != null)
+		{
+			fr.write(Oline+"\n");
+			if(Oline.equalsIgnoreCase("@DATA"))
+				break;
+		}
+		FileInputStream Dict1Stream = new FileInputStream("dictionary.arff");    
+		DataInputStream Dict1In = new DataInputStream(Dict1Stream);  
+		BufferedReader D1br = new BufferedReader(new InputStreamReader(Dict1In));
+		
+		
+		String dline;
+		while((dline = D1br.readLine()) != null)
+		{
+			if(dline.equalsIgnoreCase("@DATA"))
+				break;
+		}
+		
+		FileInputStream Dict2Stream = new FileInputStream("dictionary1.arff");    
+		DataInputStream Dict2In = new DataInputStream(Dict2Stream);  
+		BufferedReader d2br = new BufferedReader(new InputStreamReader(Dict2In));
+				
+		String d2line;
+		while((d2line = d2br.readLine()) != null)
+		{
+			if(d2line.equalsIgnoreCase("@DATA"))
+				break;
+		}
+		
+		while((Oline = Obr.readLine()) != null)
+		{
+			dline = D1br.readLine();
+			d2line = d2br.readLine();
+			fr.write(Oline+","+dline+","+d2line+"\n");
+			
+		}
+		fr.close();
+		Obr.close();
+		d2br.close();
+		D1br.close();	
+		
 	}
 	private static void populateMap(
 			ArrayList<attributeType> trainingInstances) {

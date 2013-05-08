@@ -88,8 +88,10 @@ public class CreateDictionary {
 		
 		File dictFile = new File("dictionary.arff");
 		File dictFile1 = new File("dictionary1.arff");
+		File originalFile = new File("original.arff");
 		FileWriter writeDict = new FileWriter(dictFile);
 		FileWriter writeDict1 = new FileWriter(dictFile1);
+		FileWriter OriginalDict = new FileWriter(originalFile);
 		//Iterator<String> dictItr = dictionary.iterator();
 		//while(dictItr.hasNext())
 			//writeDict.write(dictItr.next()+"\n");
@@ -117,15 +119,28 @@ public class CreateDictionary {
 				   "@DATA \n";
 		
 		writeDict1.write(line);
+		line = "% Title: Dictionary database. \n"+
+				  "% Source: Yelp.com Data. \n" +
+				  "% Authors: Manikanta Talanki & Kaushik Sirineni. \n\n"+
+				  "@RELATION dictionary original \n";
+		OriginalDict.write(line);
+		
+		line =     "@ATTRIBUTE word String \n" +
+				   "@ATTRIBUTE usefulVotesPercent NUMERIC\n"+
+				   "@ATTRIBUTE usefulnessPercent NUMERIC\n\n"+
+				   "@DATA \n";
+		OriginalDict.write(line);
 		
 		
 		for (Entry<String, DualInteger> entry : dictionary2.entrySet()) {
 			if(entry.getValue().wordRepitationCount >30)
 			{
+				OriginalDict.write(entry.getKey()+"\n");
 				writeDict.write(entry.getValue().sumUsefulVotes/(float)entry.getValue().wordRepitationCount+"\n" );
 				writeDict1.write(entry.getValue().sumUsefulnessPercent/(float)entry.getValue().wordRepitationCount+"\n" );
 			}
 		}
+		OriginalDict.close();
 		writeDict.close();
 		writeDict1.close();
 	}
