@@ -27,7 +27,6 @@ public class ControllerClass {
 			
 		try
 		{
-		if(args.length<2) System.out.println("Less number of arguments");
 		 trainingPath = args[0];
 		 testPath = args[1];		
 		 
