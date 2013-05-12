@@ -5,10 +5,13 @@ import java.util.HashMap;
 
 public class Review extends attributeType{
 
+	DictionaryReader dr=null;
 	String reviewText;
 	String reviewID;
 	char usefulnessClass;
 	int usefulnessPercentage;
+	int score1;
+	int score2;
 	
 	HashMap<String, Integer> reviewTextWords = new HashMap<String, Integer>();
 	
@@ -36,6 +39,24 @@ public class Review extends attributeType{
 		
 	}
 
+	public void setScores(){
+		if(dr == null){
+			Exception e = new Exception("DictionaryReader Object is not initialised in this instance of Reader class");
+			try {
+				throw e;
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+			
+		this.score1 = dr.getScore1(reviewText);
+		this.score2 = dr.getScore2(reviewText);
+	}
+	public void setDictionaryReader(DictionaryReader dic){
+		this.dr = dic;
+	}
+	
 	private void setUsefulnessClass(String testTrain) {
 		
 		if(testTrain.equals("train"))

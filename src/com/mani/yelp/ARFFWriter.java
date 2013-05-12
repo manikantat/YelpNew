@@ -15,12 +15,17 @@ public class ARFFWriter {
 	 ArrayListMultimap<String, User> uMap;
 	 ArrayListMultimap<String, Review> rMap;
 	
+	 DictionaryReader dr =null;
 	
 	public ARFFWriter(ArrayListMultimap<String, User> user, ArrayListMultimap<String, Review> review)
 	{
 		this.uMap = user;
 		this.rMap = review;
 		
+	}
+	
+	public void setDictionaryReader(DictionaryReader dic){
+		this.dr = dic;
 	}
 	
 	public void write() throws IOException
@@ -44,6 +49,8 @@ public class ARFFWriter {
 		line =     "@ATTRIBUTE userStarRating NUMERIC \n" +
 				   "@ATTRIBUTE userReviewCount NUMERIC\n"+
 		    	   "@ATTRIBUTE reviewStarRating {1,2,3,4,5}\n"+
+		    	   "@ATTRIBUTE reviewTextScore1 {1,2,3,4,5}\n"+
+		    	   "@ATTRIBUTE reviewTextScore2 {1,2,3,4,5}\n"+
 			  // Add text attribute...
 				   "@ATTRIBUTE reviewUsefulness  {A,B,C,D,E} \n"+
 				   "@DATA \n";
@@ -68,11 +75,15 @@ public class ARFFWriter {
 				for(int j=0; j<rList.size(); j++)
 				{
 					Review r = rList.get(j);
+					r.setDictionaryReader(dr);
+					r.setScores();
 					double userStarRating = u.starRating;
 					int userReviewCount = u.reviewCount;
 					double reviewStarRatin = r.starRating;
 					char reviewUsefulness = r.usefulnessClass;
-					line +=userStarRating +","+userReviewCount+","+reviewStarRatin+","+reviewUsefulness+"\n";
+					int reviewTextScore1 = r.score1;
+					int reviewTextScore2 = r.score2;
+					line +=userStarRating +","+userReviewCount+","+reviewStarRatin+","+reviewTextScore1+","+reviewTextScore2+","+reviewUsefulness+"\n";
 					file.write(line);
 					line="";
 					

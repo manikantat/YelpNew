@@ -59,14 +59,24 @@ public class ControllerClass {
 		 populateMap(trainingReviewerInstances);
 		 System.out.println("populating review instances..");
 		 populateMap(trainingReviewInstances);
- 	 	 
+		 
 		 System.out.println("Creating the Dictionary file...");
 		 CreateDictionary dict = new CreateDictionary(trainingReviewInstances);
 		 dict.makeDictionaryFile();		 
 		 
+
+		 ClusteringClass cc = new ClusteringClass();
+		 cc.generateCluster("dictionary.arff");
+		 cc.generateCluster("Dictionary1.arff"); 
+		 
+		 makeDictionaryWithClusters();
+		 
+		 DictionaryReader dreader = new DictionaryReader("clusteredDictionaryfinal.arff");
+		 
 		 // Joining User and review with user_id as join attribute, and writing ARFF files.
  	 	 System.out.println("writing train Arff files..");
 		 ARFFWriter writer = new ARFFWriter(userMap, reviewMap);
+		 writer.setDictionaryReader(dreader);
 		 writer.write();
 		 userMap.clear();
 		 reviewMap.clear();
@@ -91,18 +101,10 @@ public class ControllerClass {
 		 
 	 	 System.out.println("writing train Arff files..");
 		 writer = new ARFFWriter(userMap, reviewMap);
+		 writer.setDictionaryReader(dreader);
 		 writer.write();
 		 
-		 
-		 ClusteringClass cc = new ClusteringClass();
-		 cc.generateCluster("dictionary.arff");
-		 cc.generateCluster("Dictionary1.arff");
-		 
-		 
-		 makeDictionaryWithClusters();
-	
 		 System.out.println("Files Created.");
-
 		
 		}
 		catch(FileNotFoundException fne)
@@ -189,6 +191,7 @@ public class ControllerClass {
 			else
 			{
 				Review rw = (Review) att;
+				
 				reviewMap.put(rw.userID, rw);
 			}
 		}
